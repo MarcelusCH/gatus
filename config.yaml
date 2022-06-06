@@ -1,47 +1,153 @@
 endpoints:
-  - name: front-end
-    group: core
-    url: "https://twin.sh/health"
+
+  - name: Insight Explorer | .app
+    group: EXPLORER
+    url: "https://explorer.btcz.app"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
-      - "[BODY].status == UP"
-      - "[RESPONSE_TIME] < 150"
+    client:
+      insecure: false
+      ignore-redirect: false
+      timeout: 10s
+    ui:
+      hide-hostname: false
+      link: "https://explorer.btcz.app"
 
-  - name: back-end
-    group: core
-    url: "https://example.org/"
+  - name: Insight Explorer | .rocks
+    group: EXPLORER
+    url: "https://explorer.btcz.rocks"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
-      - "[CERTIFICATE_EXPIRATION] > 48h"
+    client:
+      insecure: true
+      ignore-redirect: true
+      timeout: 10s
 
-  - name: monitoring
-    group: internal
-    url: "https://example.org/"
+  - name: Iguidus Explorer
+    group: EXPLORER
+    url: "https://btczexplorer.blockhub.info/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
+    client:
+      insecure: true
+      ignore-redirect: false
+      timeout: 10s
 
-  - name: nas
-    group: internal
-    url: "https://example.org/"
-    interval: 5m
+
+
+
+
+
+
+
+
+
+  - name: getbtcz.com
+    group: WEBSITE
+    url: "https://getbtcz.com"
+    interval: 10m
     conditions:
       - "[STATUS] == 200"
 
-  - name: example-dns-query
-    url: "8.8.8.8" # Address of the DNS server to use
-    interval: 5m
-    dns:
-      query-name: "example.com"
-      query-type: "A"
+  - name: btcz.rocks
+    group: WEBSITE
+    url: "https://btcz.rocks"
+    interval: 10m
     conditions:
-      - "[BODY] == 93.184.216.34"
-      - "[DNS_RCODE] == NOERROR"
+      - "[STATUS] == 200"
 
-  - name: icmp-ping
-    url: "icmp://example.org"
+  - name: casinoz.getbtcz.com
+    group: WEBSITE
+    url: "https://casinoz.getbtcz.com"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+
+
+
+
+  - name: Payement Gateway UI
+    group: WEBSITE
+    url: "https://pay.btcz.app"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+
+  - name: Mining Pool
+    group: WEBSITE
+    url: "https://mine.btcz.app"
+    interval: 10m
+    conditions:
+      - "[STATUS] == 200"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  - name: Payement Gateway
+    group: SERVICE
+    url: "https://pay.btcz.app/api/stats/CountGatewayPaid"
     interval: 1m
     conditions:
-      - "[CONNECTED] == true"
+      - "[STATUS] == 200"
+      - "[BODY].nb > 0"
+      - "[RESPONSE_TIME] < 150"
+
+
+  - name: Insight API (.app)
+    group: SERVICE
+    url: "https://explorer.btcz.app/api/status"
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].info.protocolversion == 770009"
+      - "[RESPONSE_TIME] < 150"
+
+  - name: BWS
+    group: SERVICE
+    url: "https://bws.btcz.app/bws/api/v1/version"
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].serviceVersion == bws-1.1.0"
+      - "[RESPONSE_TIME] < 150"
+
+  - name: Rates API
+    group: SERVICE
+    url: "https://masq.btcz.app/rates"
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 150"
+
+  - name: Payement Gateway
+    group: SERVICE
+    url: "https://pay.btcz.app/api/stats/CountGatewayPaid"
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].nb > 0"
+      - "[RESPONSE_TIME] < 150"
+
+
+
+
+
+
+ui:
+  title: "BTCZ Network Status"
+  header: "Network Status"
+  logo: "https://cryptologos.cc/logos/bitcoinz-btcz-logo.png"
+  hide-hostname: true
